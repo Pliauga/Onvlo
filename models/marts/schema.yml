@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_token_unit_economics
+    description: "Detailed unit economics calculating actual prompt/completion costs per API call."
+    columns:
+      - name: trace_id
+        description: "Identifier for the workflow trace."
+        tests:
+          - not_null
+      - name: agent_step_number
+        description: "Sequential step number executed by the AI agent."
+        tests:
+          - not_null
+      - name: input_cost_usd
+        description: "Calculated cost of prompt tokens."
+        tests:
+          - not_null
+      - name: output_cost_usd
+        description: "Calculated cost of completion tokens."
+        tests:
+          - not_null
+      - name: total_cost_usd
+        description: "Sum of input and output costs."
+        tests:
+          - not_null
+
+  - name: fct_customer_ai_margins
+    description: "Daily aggregation to flag unprofitable customer accounts based on API burn vs subscription tier."
+    columns:
+      - name: customer_id
+        description: "Client identifier."
+        tests:
+          - not_null
+      - name: report_date
+        description: "Date of the aggregation."
+        tests:
+          - not_null
+      - name: subscription_tier
+        description: "Customer subscription plan."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Enterprise', 'Pro', 'Standard']
+      - name: net_margin_usd
+        description: "Daily subscription revenue minus total LLM costs."
+        tests:
+          - not_null
+      - name: is_unprofitable
+        description: "True if net_margin_usd is strictly negative."
+        tests:
+          - not_null
+          - accepted_values:
+              values: [true, false]

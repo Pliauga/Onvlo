@@ -1,0 +1,28 @@
+name: 'onvlo'
+version: '1.0.0'
+config-version: 2
+
+# This tells dbt which profile in ~/.dbt/profiles.yml to use
+profile: 'onvlo'
+
+# These configurations specify where dbt should look for different types of files
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+models:
+  token_finops:
+    # Applies to all models in the models/staging/ directory
+    staging:
+      +materialized: view
+    # Applies to all models in the models/marts/ directory
+    marts:
+      +materialized: table
