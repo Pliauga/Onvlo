@@ -64,7 +64,6 @@ def generate_dataset(num_records, output_file):
             # Dynamic pricing cost calculation
             cost_usd = (prompt_tokens / 1000.0) * rates["prompt_rate"] + (completion_tokens / 1000.0) * rates["completion_rate"]
             
-            # Step timestamp
             step_timestamp = trace_start_time + timedelta(seconds=step * random.uniform(1, 10))
             
             record = {
